@@ -1,10 +1,12 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from datetime import datetime
-import youtube_dl
+#import youtube_dl
 from time import time, sleep
 import asyncio
-youtube_dl.utils.bug_reports_message = lambda: ''
+import schedule
+import time
+#youtube_dl.utils.bug_reports_message = lambda: ''
 
 
 ytdl_format_options = {
@@ -31,23 +33,23 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.title = data.get('title')
         self.url = data.get('url')
 
-async def ezanSpielen():
-    print('moin')
-    while True:
-        sleep(5 - time() % 5)
-        now = datetime.now()
-
-        current_time = now.strftime("%H:%M")
-        if current_time == '04:30' or current_time == '06:10' or current_time == '13:10' or current_time == '16:55' or current_time == '20:00' or current_time == '21:30' or current_time == '17:10':
-            print("penis")
-            channel = client.get_channel(787098685552590896)
-            voicechannel = await channel.connect()
-            voicechannel.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source= r"C:\Users\meozo\Desktop\EzanBot\EzanMusic.mp3"))
-        @client.command()
-        async def gönn(ctx):
-            channel = client.get_channel(787098685552590896)
-            voicechannel = await channel.connect()
-            voicechannel.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source= r"C:\Users\meozo\Desktop\EzanBot\EzanMusic.mp3"))
+#async def ezanSpielen():
+#    print('moin')
+#    while True:
+#        sleep(5 - time() % 5)
+#        now = datetime.now()
+#
+#        current_time = now.strftime("%H:%M")
+#        if current_time == '04:30' or current_time == '06:10' or current_time == '13:10' or current_time == '16:55' or current_time == '20:00' or current_time == '21:30' or current_time == '17:10':
+#            print("penis")
+#            channel = client.get_channel(787098685552590896)
+#            voicechannel = await channel.connect()
+#            voicechannel.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source= r"C:\Users\meozo\Desktop\EzanBot\EzanMusic.mp3"))
+@client.command()
+async def gönn_(ctx):
+    channel = client.get_channel(787098685552590896)
+    voicechannel = await channel.connect()
+    voicechannel.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source= r"C:\Users\meozo\Desktop\EzanBot\EzanMusic.mp3"))
             #voicechannel.play(discord.FFmpegPCMAudio('EzanMusic.mp3'))
             #voice_client = client.guild.voice_client(channel)
             #player = await voice_client.create_ytdl_player('https://www.youtube.com/watch?v=HlWPAUqqYTs')
@@ -58,15 +60,21 @@ async def ezanSpielen():
         #    channel = client.get_channel(787098685552590896)
         #    voicechannel = await channel.connect()
         #    voicechannel.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source= r"C:\Users\meozo\Desktop\EzanBot\hee hee.mp3"))
+@client.event
+async def EzanJob():
+    print("asddfjklö")
+    channel = client.get_channel(787098685552590896)
+    voicechannel = await channel.connect()
+    voicechannel.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source= r"/workspace/Test/EzanBot/EzanMusic.mp3")) 
 
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
+    await my_task()
 
-    general_channel = client.get_channel(787091121062150186)
-
-    await ezanSpielen()
-
+@tasks.loop(seconds=10)
+async def my_task():
+    await EzanJob()
 
 #run client on server
 client.run('ODM1MTc0NDIzMjc1MzcyNjM2.YILmyw.NuHsENAQ3w7uOGpMn2MzPMT0rc8')
